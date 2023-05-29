@@ -39,7 +39,7 @@ function App() {
           <div>
               <p></p>
           </div>
-          <button className="book" style={{width: "200px"}} onClick={loadExpensesMenu}>View Expenses</button>
+          <button className="book" style={{width: "200px"}} onClick={loadExpensesMenu}>View Profit/Loss</button>
       </header>
     </div>
     <div id="bookingsMenu" className="App" style={{display:"none"}}>
@@ -52,6 +52,7 @@ function App() {
     </div>
           <div id="expensesMenu" className="App" style={{display:"none"}}>
               <header className="App-header">
+                  <div id="login"></div>
                     <div id="expenses"></div>
               </header>
           </div>
@@ -59,7 +60,10 @@ function App() {
       </div>
   );
 }
-
+function keys(obj) {
+    return Object.keys(obj);
+}
+const sortObject = obj => Object.keys(obj).sort().reduce((res, key) => (res[key] = obj[key], res), {});
 function loadExpensesMenu() {
     var title = document.createElement("h1");
     title.innerHTML = "Login";
@@ -109,20 +113,361 @@ function loadExpensesMenu() {
             usernameLogin.remove();
             passwordLogin.remove();
             loginButton.remove();
+            backButton.remove();
+            var elements = document.getElementsByTagName("br");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].remove();
+            }
             title.innerHTML = "Expenses";
-            var table = document.createElement("table");
-            table.style.width = "100%";
-            table.style.border = "1px solid black";
-            table.style.borderCollapse = "collapse";
-            table.style.marginBottom = "10px";
-            table.style.marginTop = "10px";
-            table.style.fontSize = "20px";
-            table.style.fontFamily = "Arial";
-            table.style.color = "white";
-            table.style.textAlign = "center";
 
-            var rowHeadings = ["Type", "Cost", "Amount"]
-            var items = {"Tea Bags": {"Price": 4.5, "Quantity":2}}
+
+            function updateTable() {
+                if (document.getElementById("expensesTable") != null){
+                    document.getElementById("expensesTable").remove();
+                }
+                var table = document.createElement("table");
+                table.style.width = "100%";
+                table.style.border = "1px solid black";
+                table.style.borderCollapse = "collapse";
+                table.style.marginBottom = "10px";
+                table.style.marginTop = "10px";
+                table.style.fontSize = "20px";
+                table.style.fontFamily = "Arial";
+                table.style.color = "white";
+                table.style.textAlign = "center";
+                table.id = "expensesTable";
+                document.getElementById("expenses").appendChild(table);
+
+                while (table.rows.length > 0) {
+                    table.deleteRow(0);
+                }
+                onValue(ref(database, 'Expenses/'), (snapshot) => {
+                    var products = snapshot.val();
+
+                    var rowHeadings = keys(products[keys(products)[0]]);
+                    rowHeadings.push("Total")
+                    rowHeadings.push("Delete");
+
+                    var row = table.insertRow();
+                    for (var i = 0; i < rowHeadings.length; i++) {
+                        var cell = row.insertCell();
+                        cell.innerHTML = rowHeadings[i];
+                        cell.style.border = "1px solid black";
+                    }
+
+                    for (var i = 0; i < keys(products).length; i++) {
+                        var productInfo = products[keys(products)[i]];
+                        var row = table.insertRow();
+                        for (var j = 0; j < rowHeadings.length; j++) {
+                            var cell = row.insertCell();
+                            if (rowHeadings[j] == "Delete") {
+                                var deleteButton = document.createElement("button");
+                                deleteButton.innerHTML = "Delete";
+                                deleteButton.style.width = "100%";
+                                deleteButton.style.height = "25px";
+                                deleteButton.style.fontSize = "20px";
+                                deleteButton.className = "book";
+                                deleteButton.onclick = function () {
+                                    // remove row from table
+                                    // check how many rows are left
+                                    // if 1 row left, remove table
+                                    var row = this.parentNode.parentNode;
+                                    var table = row.parentNode;
+                                    var rowAmount = table.rows.length;
+                                    if (rowAmount > 2) {
+                                        table.removeChild(row);
+                                    }
+                                    else {
+                                        alert("You cannot delete the last row");
+                                    }
+                                }
+                                cell.appendChild(deleteButton);
+                            }
+                            else if (rowHeadings[j] == "Total") {
+                                console.log(productInfo);
+                                var total = "$" + productInfo["Price"].replace("$", "") * productInfo["Quantity"];
+                                cell.innerHTML = total;
+                                cell.style.border = "1px solid black";
+                            }
+                            else {
+                                var input = document.createElement("input");
+                                input.value = productInfo[rowHeadings[j]];
+                                cell.appendChild(input);
+                                cell.style.border = "1px solid black";
+                            }
+                        }
+                    }
+                    if (document.getElementById("addNewRow") != null){
+                        document.getElementById("addNewRow").remove();
+                    }
+                    var addNewRow = document.createElement("button");
+                    addNewRow.innerHTML = "Add New Product";
+                    addNewRow.style.width = "100%";
+                    addNewRow.style.height = "25px";
+                    addNewRow.style.fontSize = "20px";
+                    addNewRow.style.marginRight = "10px";
+                    addNewRow.style.marginBottom = "10px";
+                    addNewRow.onclick = function () {
+                        row = table.insertRow();
+                        for (var j = 0; j < rowHeadings.length; j++) {
+                            var cell = row.insertCell();
+                            if (rowHeadings[j] == "Delete") {
+                                var deleteButton = document.createElement("button");
+                                deleteButton.innerHTML = "Delete";
+                                deleteButton.style.width = "100%";
+                                deleteButton.style.height = "25px";
+                                deleteButton.style.fontSize = "20px";
+                                deleteButton.className = "book";
+                                deleteButton.onclick = function () {
+                                    // remove row from table
+                                    // check how many rows are left
+                                    // if 1 row left, remove table
+                                    var row = this.parentNode.parentNode;
+                                    var table = row.parentNode;
+                                    var rowAmount = table.rows.length;
+                                    if (rowAmount > 2) {
+                                        table.removeChild(row);
+                                    }
+                                    else {
+                                        alert("You cannot delete the last row");
+                                    }
+                                }
+                                cell.appendChild(deleteButton);
+                            }
+                            else if (rowHeadings[j] == "Total") {
+                                console.log(productInfo);
+                                var total = "N/A";
+                                cell.innerHTML = total;
+                                cell.style.border = "1px solid black";
+                            }
+                            else {
+                                var input = document.createElement("input");
+                                input.value = "";
+                                cell.appendChild(input);
+                                cell.style.border = "1px solid black";
+                            }
+                        }
+                    }
+                    addNewRow.id = "addNewRow";
+                    addNewRow.className = "book";
+
+                    document.getElementById("expenses").appendChild(addNewRow);
+                    if (document.getElementById("updateButton") != null){
+                        document.getElementById("updateButton").remove();
+                    }
+                    var updateButton = document.createElement("button");
+                    updateButton.innerHTML = "Update Expenses List";
+                    updateButton.style.width = "100%";
+                    updateButton.style.height = "25px";
+                    updateButton.style.fontSize = "20px";
+                    updateButton.style.marginRight = "10px";
+                    updateButton.style.marginBottom = "10px";
+                    updateButton.id = "updateButton";
+                    updateButton.onclick = function () {
+                        var table = document.getElementById("expensesTable");
+                        var rows = table.rows;
+                        var expenses = {};
+                        for (var i = 1; i < rows.length; i++) {
+                            var row = rows[i];
+                            var cells = row.cells;
+                            var expense = {};
+                            for (var j = 0; j < cells.length; j++) {
+                                var cell = cells[j];
+                                var input = cell.children[0];
+                                if (rowHeadings[j] != "Delete" && rowHeadings[j] != "Total") {
+                                    expense[rowHeadings[j]] = input.value;
+                                }
+                            }
+                            expenses[i] = expense;
+                        }
+                        set(ref(database, 'Expenses/'), expenses);
+                        updateTable();
+                    }
+                    updateButton.className = "book";
+                    document.getElementById("expenses").appendChild(updateButton);
+
+
+                    if (document.getElementById("profitTitle") != null){
+                        document.getElementById("profitTitle").remove();
+                    }
+                    var profitTitle = document.createElement("h1");
+                    profitTitle.style.marginBottom = "10px";
+                    profitTitle.style.marginTop = "10px";
+                    profitTitle.style.fontSize = "40px";
+                    profitTitle.style.fontFamily = "Arial";
+                    profitTitle.style.color = "white";
+                    profitTitle.style.textAlign = "center";
+                    profitTitle.innerHTML = "Revenue";
+                    profitTitle.id = "profitTitle";
+                    document.getElementById("expenses").appendChild(profitTitle);
+
+                    if (document.getElementById("profitTable") != null){
+                        document.getElementById("profitTable").remove();
+                    }
+                    var profitTable = document.createElement("table");
+                    profitTable.style.width = "100%";
+                    profitTable.style.border = "1px solid black";
+                    profitTable.style.borderCollapse = "collapse";
+                    profitTable.style.marginBottom = "10px";
+                    profitTable.style.marginTop = "10px";
+                    profitTable.style.fontSize = "20px";
+                    profitTable.style.fontFamily = "Arial";
+                    profitTable.style.color = "white";
+                    profitTable.style.textAlign = "center";
+                    profitTable.id = "profitTable";
+                    document.getElementById("expenses").appendChild(profitTable);
+
+                    onValue(ref(database, 'bookedSeats/'), (snapshot) => {
+                        var seats = snapshot.val();
+                        if (seats == null || seats == undefined) {
+                            seats = [];
+                        }
+                        var _profit = {};
+                        for (var i = 0; i < seats.length; i++) {
+                            var seat = seats[i];
+                            if (_profit[seat.ID[0]] == undefined || _profit[seat.ID[0]] == null) {
+                                _profit[seat.ID[0]] = [];
+                            }
+                            if (_profit[seat.ID[0]].indexOf(seat.ID[1]) == -1) {
+                                _profit[seat.ID[0]].push(seat.ID[1])
+                            }
+                        }
+
+                        // sort profit alphabetically by the keys
+                        var profit = sortObject(_profit);
+                        console.log(profit);
+
+                        var profitTableHeadings = ["Row", "Amount of Seats Booked", "Price per Seat", "Total"];
+                        var heading = profitTable.insertRow();
+                        for (var i = 0; i < profitTableHeadings.length; i++) {
+                            var cell = heading.insertCell();
+                            cell.style.border = "1px solid black";
+                            cell.innerHTML = profitTableHeadings[i];
+                        }
+
+                        for (var i = 0; i<keys(profit).length; i++){
+                            var row = profitTable.insertRow();
+                            var _row = row.insertCell();
+                            var amtOfSeats = row.insertCell();
+                            var price = row.insertCell();
+                            var total = row.insertCell();
+                            amtOfSeats.style.border = "1px solid black";
+                            price.style.border = "1px solid black";
+                            total.style.border = "1px solid black";
+                            _row.style.border = "1px solid black";
+                            _row.innerHTML = keys(profit)[i]
+                            amtOfSeats.innerHTML = profit[keys(profit)[i]].length;
+                            price.innerHTML = "$" + SeatIDToPrice(keys(profit)[i]);
+                            total.innerHTML = "$" + (SeatIDToPrice(keys(profit)[i]) * profit[keys(profit)[i]].length);
+
+                        }
+
+                        if (document.getElementById("_profitTitle") != null){
+                            document.getElementById("_profitTitle").remove();
+                        }
+                        var _profitTitle = document.createElement("h1");
+                        _profitTitle.style.marginBottom = "10px";
+                        _profitTitle.style.marginTop = "10px";
+                        _profitTitle.style.fontSize = "40px";
+                        _profitTitle.style.fontFamily = "Arial";
+                        _profitTitle.style.color = "white";
+                        _profitTitle.style.textAlign = "center";
+                        _profitTitle.innerHTML = "Profit / Loss";
+                        _profitTitle.id = "_profitTitle";
+                        document.getElementById("expenses").appendChild(_profitTitle);
+
+                        var _profit = document.createElement("p");
+                        var _loss = document.createElement("p");
+                        var _total = document.createElement("p");
+
+                        _profit.style.color = "green";
+                        _loss.style.color = "red";
+
+                        var profitAmt = 0;
+                        var lossAmt = 0;
+                        for (var i = 0; i<keys(profit).length; i++){
+                            profitAmt += SeatIDToPrice(keys(profit)[i]) * profit[keys(profit)[i]].length;
+                        }
+
+                        // iterate through the table of expenses and add up the total
+                        var rows = document.getElementById("expensesTable").rows;
+                        for (var i = 1; i < rows.length; i++) {
+                            var row = rows[i];
+                            var cells = row.cells;
+                            var total = cells[cells.length - 2].innerHTML;
+                            console.log(total)
+                            if (total != "N/A" && total != "Total" && total != "" && total != "NaN" && total != undefined) {
+                                lossAmt += parseFloat(total.replace("$", ""));
+                            }
+                        }
+                        // convert the lossAmt and PROFIT To decimals
+                        lossAmt = lossAmt.toFixed(2);
+                        profitAmt = profitAmt.toFixed(2);
+
+                        if (profitAmt - lossAmt > 0){
+                            _total.style.color = "green";
+                        }
+                        else if (profitAmt - lossAmt < 0){
+                            _total.style.color = "red";
+                        }
+
+                        _profit.innerHTML = "$" + profitAmt;
+                        _loss.innerHTML = "$" + lossAmt;
+                        _total.innerHTML = "$" + (profitAmt - lossAmt).toFixed(2);
+
+                        var between = document.createElement("p");
+                        between.innerHTML = " - ";
+                        between.style.color = "white";
+
+                        var b2 = document.createElement("p");
+                        b2.innerHTML = " = ";
+                        b2.style.color = "white";
+
+                        between.style.marginLeft = "10px";
+                        between.style.marginRight = "10px";
+                        b2.style.marginLeft = "10px";
+                        b2.style.marginRight = "10px";
+
+                        console.log(profitAmt);
+                        console.log(lossAmt);
+
+                        if (document.getElementById("holderDiv") != null){
+                            document.getElementById("holderDiv").remove();
+                        }
+                        var holderDiv = document.createElement("div");
+                        holderDiv.style.display = "flex";
+                        holderDiv.style.justifyContent = "center";
+                        holderDiv.style.alignItems = "center";
+                        holderDiv.id = "holderDiv";
+                        holderDiv.appendChild(_profit);
+                        holderDiv.appendChild(between);
+                        holderDiv.appendChild(_loss);
+                        holderDiv.appendChild(b2);
+                        holderDiv.appendChild(_total);
+                        document.getElementById("expenses").appendChild(holderDiv);
+
+                        var back = document.createElement("button");
+                        back.innerHTML = "Back";
+                        back.style.width = "100px";
+                        back.style.height = "25px";
+                        back.style.fontSize = "20px";
+                        back.style.marginRight = "10px";
+                        back.style.marginBottom = "10px";
+                        back.onclick = function () {
+                            window.location.reload();
+                        }
+                        back.className = "book";
+                        document.getElementById("expenses").appendChild(back);
+
+
+
+                    });
+                });
+            }
+            updateTable();
+
+
+
 
         })
             .catch((error) => {
@@ -132,16 +477,54 @@ function loadExpensesMenu() {
             });
     }
     loginButton.className = "book";
+
+    var backButton = document.createElement("button");
+    backButton.innerHTML = "Back";
+    backButton.style.width = "100px";
+    backButton.style.height = "25px";
+    backButton.style.fontSize = "20px";
+    backButton.style.marginRight = "10px";
+    backButton.style.marginBottom = "10px";
+    backButton.onclick = function () {
+        window.location.reload();
+    }
+    backButton.className = "book";
+
     document.getElementById("mainMenu").style.display = "none";
     document.getElementById("expensesMenu").style.display = "block";
-    document.getElementById("expenses").appendChild(title);
-    document.getElementById("expenses").appendChild(document.createElement("br"));
-    document.getElementById("expenses").appendChild(usernameLogin);
-    document.getElementById("expenses").appendChild(document.createElement("br"));
-    document.getElementById("expenses").appendChild(passwordLogin);
-    document.getElementById("expenses").appendChild(document.createElement("br"));
-    document.getElementById("expenses").appendChild(loginButton);
+    document.getElementById("login").appendChild(title);
+    document.getElementById("login").appendChild(document.createElement("br"));
+    document.getElementById("login").appendChild(usernameLogin);
+    document.getElementById("login").appendChild(document.createElement("br"));
+    document.getElementById("login").appendChild(passwordLogin);
+    document.getElementById("login").appendChild(document.createElement("br"));
+    document.getElementById("login").appendChild(loginButton);
+    document.getElementById("login").appendChild(backButton);
 }
+
+function SeatIDToPrice(ID) {
+    switch (ID[0]) {
+        case "A":
+            return 20;
+        case "B":
+            return 20;
+        case "C":
+            return 15;
+        case "D":
+            return 15;
+        case "E":
+            return 10;
+        case "F":
+            return 10;
+        case "G":
+            return 10;
+        case "H":
+            return 10;
+
+
+    }
+}
+
 function loadBookingMenu() {
     document.getElementById("bookingsMenu").style.display = "block";
     document.getElementById("mainMenu").style.display = "none";
@@ -211,7 +594,7 @@ function loadBookingMenu() {
     seatPricesListB.innerHTML = "Row C or D: $15";
     seatPrices.appendChild(seatPricesListB);
     var seatPricesListC = document.createElement("p");
-    seatPricesListC.innerHTML = "Row E or F: $10";
+    seatPricesListC.innerHTML = "Row E, F, G or H: $10";
     seatPrices.appendChild(seatPricesListC);
 
     document.getElementById("booking-info").appendChild(seatPrices);
@@ -244,6 +627,7 @@ function _viewCart() {
     cartHolder.style.border = "3px solid black";
     cartHolder.style.paddingTop = "20px";
     cartHolder.style.backgroundColor = "#282c34";
+    cartHolder.style.overflow = "auto";
     document.getElementById("bookings").appendChild(cartHolder);
 
     var cartHeading = document.createElement("h1");
@@ -392,6 +776,8 @@ function bookSeat(seatID) {
         // make seat button green and disabled
         var seat = document.getElementById(seatID);
         seat.style.backgroundColor = "green";
+        seat.style.color = "white";
+        seat.style.borderColor = "green";
         seat.disabled = true;
 
         confirmAddToCart.remove();
