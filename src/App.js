@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set, onValue } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
-// import anychart-base
+import * as anychart from 'anychart';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -523,6 +523,46 @@ function loadExpensesMenu() {
                         holderDiv.appendChild(b2);
                         holderDiv.appendChild(_total);
                         document.getElementById("expenses").appendChild(holderDiv);
+// make a pie chart with each row and its profits
+                        var ctx = document.createElement("div");
+                        ctx.id = "container";
+                        ctx.style.width = "100%";
+                        ctx.style.height = "400px";
+                        document.getElementById("expenses").appendChild(ctx);
+                        // convert profit to a list with each row and its profits
+                        var _profit = {};
+                        for (var i = 0; i < seats.length; i++) {
+                            var seat = seats[i];
+                            if (_profit[seat.ID[0]] == undefined || _profit[seat.ID[0]] == null) {
+                                _profit[seat.ID[0]] = [];
+                            }
+                            if (_profit[seat.ID[0]].indexOf(seat.ID.substring(1)) == -1) {
+                                _profit[seat.ID[0]].push(seat.ID.substring(1));
+                            }
+                        }
+                        var profitList = [];
+                        for (var i = 0; i < keys(_profit).length; i++) {
+                            console.log(keys(_profit)[i]);
+                            var row = keys(_profit)[i];
+                            var amount = _profit[keys(_profit)[i]].length;
+                            var price = SeatIDToPrice(keys(_profit)[i]);
+                            var total = amount * price;
+                            profitList.push({
+                                "x": row,
+                                "value": total,
+                                "Amount of Seats": amount,
+                                "Price per Seat": price,
+                                "Total Price": total
+                            });
+                        }
+                        var chart = anychart.pie();
+                        chart.title("Revenue per Row")
+                        chart.data(profitList);
+                        chart.container("container");
+                        chart.sort("asc");
+                        chart.labels().position("outside");
+                        chart.connectorStroke({color: "#595959", thickness: 2, dash:"2 2"});
+                        chart.draw();
 
                         var exportCsv = document.createElement("button");
                         exportCsv.innerHTML = "Export CSV";
@@ -583,39 +623,7 @@ function loadExpensesMenu() {
                         back.className = "book";
                         document.getElementById("expenses").appendChild(back);
 
-                        // make a pie chart with each row and its profits
-                        var ctx = document.createElement("div");
-                        // convert profit to a list with each row and its profits
-                        var _profit = {};
-                        for (var i = 0; i < seats.length; i++) {
-                            var seat = seats[i];
-                            if (_profit[seat.ID[0]] == undefined || _profit[seat.ID[0]] == null) {
-                                _profit[seat.ID[0]] = [];
-                            }
-                            if (_profit[seat.ID[0]].indexOf(seat.ID.substring(1)) == -1) {
-                                _profit[seat.ID[0]].push(seat.ID.substring(1));
-                            }
-                        }
-                        var profitList = [];
-                        for (var i = 0; i < keys(_profit).length; i++) {
-                            console.log(keys(_profit)[i]);
-                            var row = keys(_profit)[i];
-                            var amount = _profit[keys(_profit)[i]].length;
-                            var price = SeatIDToPrice(keys(_profit)[i]);
-                            var total = amount * price;
-                            profitList.push({
-                                "x": row,
-                                "Amount of Seats": amount,
-                                "Price per Seat": price,
-                                "Total Price": total
-                            });
-                        }
 
-                        var chart = anychart.pie();
-                        chart.title("Revenue per Row")
-                        chart.data(profitList);
-                        chart.container("expenses");
-                        chart.draw()
 
                     });
 
