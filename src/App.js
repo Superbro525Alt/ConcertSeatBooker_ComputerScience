@@ -68,7 +68,7 @@ function App() {
                       <h1>Evaluation</h1>
                         <ol style={{textAlign: "left"}}>
                             <li>Total number of tickets available: <b>120</b></li>
-                            <li>The income from the gold class tickets is higher than the silver class tickets: <b>True</b> /False</li>
+                            <li id="goldClassIncome">The income from the gold class tickets is higher than the silver class tickets: <b>True</b> or False</li>
                             <li>The average income from each seat is <b>$13.75</b></li>
                             <li>In case of a sold-out concert, the total income is <b>$1760</b>, and it changes the profit by <b>$740.80</b>.</li>
                         </ol>
@@ -85,20 +85,49 @@ function keys(obj) {
 const sortObject = obj => Object.keys(obj).sort().reduce((res, key) => (res[key] = obj[key], res), {});
 
 function loadEvaluationMenu() {
-    document.getElementById("mainMenu").style.display = "none";
-    document.getElementById("evaluation").style.display = "block";
-    var back = document.createElement("button");
-    back.innerHTML = "Back";
-    back.style.width = "100px";
-    back.style.height = "25px";
-    back.style.fontSize = "12px";
-    back.style.marginRight = "10px";
-    back.style.marginBottom = "10px";
-    back.onclick = function () {
-        window.location.reload();
-    }
-    back.className = "book";
-    document.getElementById("evaluate").appendChild(back);
+    onValue(ref(database, 'bookedSeats/'), (snapshot) => {
+        var seats = snapshot.val();
+        if (seats == null || seats == undefined) {
+            seats = [];
+        }
+        var _profit = {};
+        for (var i = 0; i < seats.length; i++) {
+            var seat = seats[i];
+            if (_profit[seat.ID[0]] == undefined || _profit[seat.ID[0]] == null) {
+                _profit[seat.ID[0]] = [];
+            }
+            if (_profit[seat.ID[0]].indexOf(seat.ID.substring(1)) == -1) {
+                _profit[seat.ID[0]].push(seat.ID.substring(1));
+            }
+        }
+        // check if there are any letters with out arrays
+        var letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
+        for (var i = 0; i < letters.length; i++) {
+            if (_profit[letters[i]] == undefined || _profit[letters[i]] == null) {
+                _profit[letters[i]] = [];
+            }
+        }
+        if (((_profit['A'].length + _profit['B'].length) * 20 > ((_profit['C'].length + _profit['D'].length) * 15))) {
+            document.getElementById("goldClassIncome").innerHTML = "The income from the gold class tickets is higher than the silver class tickets: <b>True</b> or False";
+        }
+        else {
+            document.getElementById("goldClassIncome").innerHTML = "The income from the gold class tickets is higher than the silver class tickets: True or <b>False</b>";
+        }
+        document.getElementById("mainMenu").style.display = "none";
+        document.getElementById("evaluation").style.display = "block";
+        var back = document.createElement("button");
+        back.innerHTML = "Back";
+        back.style.width = "100px";
+        back.style.height = "25px";
+        back.style.fontSize = "12px";
+        back.style.marginRight = "10px";
+        back.style.marginBottom = "10px";
+        back.onclick = function () {
+            window.location.reload();
+        }
+        back.className = "book";
+        document.getElementById("evaluate").appendChild(back);
+    });
 }
 function loadExpensesMenu() {
     var title = document.createElement("h1");
@@ -230,6 +259,19 @@ function loadExpensesMenu() {
                                 input.value = productInfo[rowHeadings[j]];
                                 cell.appendChild(input);
                                 cell.style.border = "1px solid black";
+                                // if the input is changed, update the total
+                                input.onchange = function () {
+                                    var row = this.parentNode.parentNode;
+                                    var table = row.parentNode;
+                                    var rowAmount = table.rows.length;
+                                    var total = 0;
+
+                                    var price = row.cells[1].childNodes[0].value.replace("$", "");
+                                    var quantity = row.cells[2].childNodes[0].value;
+                                    total = price * quantity;
+
+                                    row.cells[3].innerHTML = "$" + total;
+                                }
                             }
                         }
                     }
