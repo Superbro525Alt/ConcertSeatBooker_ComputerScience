@@ -482,7 +482,13 @@ function loadExpensesMenu() {
                             var hiddenElement = document.createElement('a');
                             hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
                             hiddenElement.target = '_blank';
-                            hiddenElement.download = 'expenses.csv';
+                            var name = prompt("What would you like to name the file? (expenses.csv)");
+                            if (name != null && name != ""){
+                                hiddenElement.download = name + '.csv';
+                            }
+                            else{
+                                hiddenElement.download = 'expenses.csv';
+                            }
                             hiddenElement.click();
                         }
                         document.getElementById("expenses").appendChild(exportCsv);
