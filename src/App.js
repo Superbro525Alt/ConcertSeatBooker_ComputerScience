@@ -328,8 +328,8 @@ function loadExpensesMenu() {
                             if (_profit[seat.ID[0]] == undefined || _profit[seat.ID[0]] == null) {
                                 _profit[seat.ID[0]] = [];
                             }
-                            if (_profit[seat.ID[0]].indexOf(seat.ID[1]) == -1) {
-                                _profit[seat.ID[0]].push(seat.ID[1])
+                            if (_profit[seat.ID[0]].indexOf(seat.ID.substring(1)) == -1) {
+                                _profit[seat.ID[0]].push(seat.ID.substring(1));
                             }
                         }
 
@@ -446,11 +446,52 @@ function loadExpensesMenu() {
                         holderDiv.appendChild(_total);
                         document.getElementById("expenses").appendChild(holderDiv);
 
+                        var exportCsv = document.createElement("button");
+                        exportCsv.innerHTML = "Export CSV";
+                        exportCsv.style.width = "100px";
+                        exportCsv.style.height = "25px";
+                        exportCsv.style.fontSize = "12px";
+                        exportCsv.style.marginRight = "10px";
+                        exportCsv.style.marginBottom = "10px";
+                        exportCsv.className = "book";
+                        exportCsv.onclick = function () {
+                            var csv = "Expenses,Product,Price per Unit,Quantity,Total\n";
+                            var rows = document.getElementById("expensesTable").rows;
+                            for (var i = 1; i < rows.length; i++) {
+                                var row = rows[i];
+                                var cells = row.cells;
+                                var productName = cells[0].children[0].value;
+                                var price = cells[1].children[0].value;
+                                var amount = cells[2].children[0].value;
+                                var total = price.replace("$", "") * amount;
+                                csv += "," + productName + "," + price + "," + amount + ",$" + total + "\n";
+                            }
+                            csv += "\n\nRevenue,Row,Amount of Seats Booked,Price per Seat,Total\n";
+                            for (var i = 0; i < keys(profit).length; i++) {
+                                var row = keys(profit)[i];
+                                var amount = profit[keys(profit)[i]].length;
+                                var price = SeatIDToPrice(keys(profit)[i]);
+                                var total = amount * price;
+                                csv += "," + row + "," + amount + ",$" + price + ",$" + total + "\n";
+                            }
+
+                            csv += "\n\nRevenue, Expenses, Profit\n";
+                            csv += "$" + profitAmt + ",$" + lossAmt + ",$" + (profitAmt - lossAmt).toFixed(2) + "\n";
+
+
+                            var hiddenElement = document.createElement('a');
+                            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+                            hiddenElement.target = '_blank';
+                            hiddenElement.download = 'expenses.csv';
+                            hiddenElement.click();
+                        }
+                        document.getElementById("expenses").appendChild(exportCsv);
+
                         var back = document.createElement("button");
                         back.innerHTML = "Back";
                         back.style.width = "100px";
                         back.style.height = "25px";
-                        back.style.fontSize = "20px";
+                        back.style.fontSize = "12px";
                         back.style.marginRight = "10px";
                         back.style.marginBottom = "10px";
                         back.onclick = function () {
@@ -541,20 +582,34 @@ function loadBookingMenu() {
         var row = document.createElement("div");
         row.style.display = "flex"
         document.getElementById("seats").appendChild(row);
+        var first = true;
         for (var j = 0; j<16; j++) {
             if (j === 8) {
                 let seat = document.createElement("p");
                 seat.style.width = "25px";
                 seat.style.height = "25px";
                 row.appendChild(seat);
+                if (first) {
+                    first = false;
+                }
             } else {
                 let seat = document.createElement("button");
                 seat.style.width = "40px";
                 seat.style.height = "25px";
-                seat.innerHTML = numberToAlphabet(i) + (j+1);
+                if (first) {
+                    seat.innerHTML = numberToAlphabet(i) + (j + 1);
+                }
+                else {
+                    seat.innerHTML = numberToAlphabet(i) + (j);
+                }
                 seat.onclick = function() {bookSeat(this.innerHTML)};
                 seat.disabled = true;
-                seat.id = numberToAlphabet(i) + (j+1);
+                if (first) {
+                    seat.id = numberToAlphabet(i) + (j + 1);
+                }
+                else {
+                    seat.id = numberToAlphabet(i) + (j);
+                }
                 onValue(ref(database, 'bookedSeats/'), (snapshot) => {
                    var  __seats = snapshot.val();
                    if (__seats == "") {
