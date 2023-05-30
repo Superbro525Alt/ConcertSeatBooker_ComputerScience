@@ -40,6 +40,10 @@ function App() {
               <p></p>
           </div>
           <button className="book" style={{width: "200px"}} onClick={loadExpensesMenu}>View Profit/Loss</button>
+          <div>
+              <p></p>
+          </div>
+          <button className="book" style={{width: "200px"}} onClick={loadEvaluationMenu}>Evaluation</button>
       </header>
     </div>
     <div id="bookingsMenu" className="App" style={{display:"none"}}>
@@ -50,6 +54,7 @@ function App() {
               </div>
           </header>
     </div>
+
           <div id="expensesMenu" className="App" style={{display:"none"}}>
               <header className="App-header">
                   <div id="login"></div>
@@ -57,13 +62,44 @@ function App() {
               </header>
           </div>
 
+          <div id="evaluation" className="App" style={{display:"none"}}>
+              <header className="App-header">
+                  <div id="evaluate">
+                      <h1>Evaluation</h1>
+                        <ol style={{textAlign: "left"}}>
+                            <li>Total number of tickets available: <b>120</b></li>
+                            <li>The income from the gold class tickets is higher than the silver class tickets: <b>True</b> /False</li>
+                            <li>The average income from each seat is <b>$13.75</b></li>
+                            <li>In case of a sold-out concert, the total income is <b>$1760</b>, and it changes the profit by <b>$740.80</b>.</li>
+                        </ol>
+                  </div>
+              </header>
+          </div>
+
       </div>
-  );
+    );
 }
 function keys(obj) {
     return Object.keys(obj);
 }
 const sortObject = obj => Object.keys(obj).sort().reduce((res, key) => (res[key] = obj[key], res), {});
+
+function loadEvaluationMenu() {
+    document.getElementById("mainMenu").style.display = "none";
+    document.getElementById("evaluation").style.display = "block";
+    var back = document.createElement("button");
+    back.innerHTML = "Back";
+    back.style.width = "100px";
+    back.style.height = "25px";
+    back.style.fontSize = "12px";
+    back.style.marginRight = "10px";
+    back.style.marginBottom = "10px";
+    back.onclick = function () {
+        window.location.reload();
+    }
+    back.className = "book";
+    document.getElementById("evaluate").appendChild(back);
+}
 function loadExpensesMenu() {
     var title = document.createElement("h1");
     title.innerHTML = "Login";
@@ -576,7 +612,7 @@ function loadBookingMenu() {
     document.getElementById("bookingsMenu").style.display = "block";
     document.getElementById("mainMenu").style.display = "none";
     var stage = document.createElement("div");
-    stage.style.width = "620px";
+    stage.style.width = "660px";
     stage.style.height = "75px";
     stage.style.border = "3px solid black";
     stage.style.fontSize = "40px";
@@ -589,7 +625,7 @@ function loadBookingMenu() {
         row.style.display = "flex"
         document.getElementById("seats").appendChild(row);
         var first = true;
-        for (var j = 0; j<16; j++) {
+        for (var j = 0; j<17; j++) {
             if (j === 8) {
                 let seat = document.createElement("p");
                 seat.style.width = "25px";
