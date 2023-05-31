@@ -613,7 +613,7 @@ function loadExpensesMenu() {
                         var chart2 = anychart.pie();
                         chart2.background().enabled(true);
                         chart2.background().fill("#282c34 1");
-                        chart2.tooltip().format("Product: {%x}\nPrice: {%price}\nQuantity: ${%quantity}\nTotal Cost: ${%total}");
+                        chart2.tooltip().format("Product: {%x}\nCost per item: ${%price}\nQuantity: ${%quantity}\nTotal Cost: ${%total}");
                         var labels = chart2.labels();
                         labels.fontColor("white");
                         chart2.title("Expenses per Item");
@@ -630,7 +630,7 @@ function loadExpensesMenu() {
                         chart2.draw();
 
                         var exportCsv = document.createElement("button");
-                        exportCsv.innerHTML = "Export CSV";
+                        exportCsv.innerHTML = "Export XLSX";
                         exportCsv.style.width = "100px";
                         exportCsv.style.height = "25px";
                         exportCsv.style.fontSize = "12px";
