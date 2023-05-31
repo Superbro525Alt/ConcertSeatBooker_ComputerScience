@@ -5,6 +5,8 @@ import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set, onValue } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import * as anychart from 'anychart';
+import * as tableexport from 'tableexport';
+import * as XLSX from 'xlsx';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -550,19 +552,82 @@ function loadExpensesMenu() {
                             profitList.push({
                                 "x": row,
                                 "value": total,
-                                "Amount of Seats": amount,
-                                "Price per Seat": price,
-                                "Total Price": total
+                                "AmountofSeats": amount,
+                                "PriceperSeat": price,
+                                "TotalPrice": total
                             });
                         }
                         var chart = anychart.pie();
-                        chart.title("Revenue per Row")
+                        chart.background().enabled(true);
+                        chart.background().fill("#282c34 1");
+                        chart.tooltip().format("Row: {%x}\nAmount of Seats Booked: {%AmountofSeats}\nRevenue per Seat: ${%PriceperSeat}\nTotal Revenue: ${%TotalPrice}");
+                        var labels = chart.labels();
+                        labels.fontColor("white");
+                        chart.title("Revenue per Row");
+                        chart.title().fontColor("white");
+                        // make the legand color white
+                        chart.legend().fontColor("white");
+                        chart.legend().itemsFormat("Row {%x}");
                         chart.data(profitList);
                         chart.container("container");
                         chart.sort("asc");
                         chart.labels().position("outside");
-                        chart.connectorStroke({color: "#595959", thickness: 2, dash:"2 2"});
+                        chart.sort("asc");
+                        chart.connectorStroke({color: "white", thickness: 2, dash:"2 2"});
                         chart.draw();
+
+
+                        var table = document.getElementById("expensesTable");
+                        var rows = table.rows;
+                        var expenses = {};
+                        for (var i = 1; i < rows.length; i++) {
+                            var row = rows[i];
+                            var cells = row.cells;
+                            var expense = {};
+                            for (var j = 0; j < cells.length; j++) {
+                                var cell = cells[j];
+                                var input = cell.children[0];
+                                if (rowHeadings[j] != "Delete" && rowHeadings[j] != "Total") {
+                                    expense[rowHeadings[j]] = input.value;
+                                }
+                            }
+                            expenses[i] = expense;
+                        }
+                        var expensesList = []
+                        for (var i = 1; i < keys(expenses).length; i++) {
+                            let e = expenses[i];
+                            expensesList.push({
+                                "x": e.Name,
+                                "value": e.Price.replace("$", "") * e.Quantity,
+                                "price": e.Price.replace("$", ""),
+                                "quantity": e.Quantity,
+                                "total": e.Price.replace("$", "") * e.Quantity
+                            })
+                        }
+                        var ctx = document.createElement("div");
+                        ctx.id = "container2";
+                        ctx.style.width = "100%";
+                        ctx.style.height = "400px";
+                        document.getElementById("expenses").appendChild(ctx);
+
+                        var chart2 = anychart.pie();
+                        chart2.background().enabled(true);
+                        chart2.background().fill("#282c34 1");
+                        chart2.tooltip().format("Product: {%x}\nPrice: {%price}\nQuantity: ${%quantity}\nTotal Cost: ${%total}");
+                        var labels = chart2.labels();
+                        labels.fontColor("white");
+                        chart2.title("Expenses per Item");
+                        chart2.title().fontColor("white");
+                        // make the legand color white
+                        chart2.legend().fontColor("white");
+                        chart2.legend().itemsFormat("{%x}");
+                        chart2.data(expensesList);
+                        chart2.container("container2");
+                        chart2.sort("asc");
+                        chart2.labels().position("outside");
+                        chart2.sort("asc");
+                        chart2.connectorStroke({color: "white", thickness: 2, dash:"2 2"});
+                        chart2.draw();
 
                         var exportCsv = document.createElement("button");
                         exportCsv.innerHTML = "Export CSV";
@@ -595,18 +660,15 @@ function loadExpensesMenu() {
 
                             csv += "\n\nRevenue, Expenses, Profit\n";
                             csv += "$" + profitAmt + ",$" + lossAmt + ",$" + (profitAmt - lossAmt).toFixed(2) + "\n";
-
-
-                            var hiddenElement = document.createElement('a');
-                            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-                            hiddenElement.target = '_blank';
-                            var name = prompt("What would you like to name the file? (expenses.csv)");
-                            if (name != null && name != "") {
-                                hiddenElement.download = name + '.csv';
-                            } else {
-                                hiddenElement.download = 'expenses.csv';
+                            var c = csv.split("\n");
+                            var arr = []
+                            for (var i = 0; i < c.length; i++) {
+                                arr.push(c[i].split(","));
                             }
-                            hiddenElement.click();
+                            var workbook = XLSX.utils.book_new();
+                            var ws = XLSX.utils.aoa_to_sheet(arr);
+                            XLSX.utils.book_append_sheet(workbook, ws, "Results");
+                            XLSX.writeFile(workbook, 'out.xlsx', {type: 'file'});
                         }
                         document.getElementById("expenses").appendChild(exportCsv);
 
