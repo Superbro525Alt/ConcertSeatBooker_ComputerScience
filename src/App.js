@@ -34,9 +34,14 @@ var CART = [];
 function App() {
   return (
       <div id="app">
+          <header className="App-header">
+
     <div className="App" id="mainMenu">
-      <header className="App-header">
+      <header className="App-header-auto">
+          <img src={process.env.PUBLIC_URL + "/logo.png"} alt="logo" />
+          <h2>
             Concert Seat Booking
+          </h2>
           <p></p>
           <button className="book" style={{width: "200px"}} onClick={loadBookingMenu}>Book Now</button>
           <div>
@@ -50,34 +55,29 @@ function App() {
       </header>
     </div>
     <div id="bookingsMenu" className="App" style={{display:"none"}}>
-          <header className="App-header">
               <div id="bookings" style={{display:"flex"}}>
                 <div id="seats"></div>
                   <div id="booking-info" style={{paddingLeft:"70px"}}></div>
               </div>
-          </header>
     </div>
 
           <div id="expensesMenu" className="App" style={{display:"none"}}>
-              <header className="App-header">
                   <div id="login"></div>
                     <div id="expenses"></div>
-              </header>
           </div>
 
           <div id="evaluation" className="App" style={{display:"none"}}>
-              <header className="App-header">
                   <div id="evaluate">
                       <h1>Evaluation</h1>
                         <ol style={{textAlign: "left"}}>
-                            <li>Total number of tickets available: <b>120</b></li>
+                            <li id="tickets">Total number of tickets available: <b>120</b></li>
                             <li id="goldClassIncome">The income from the gold class tickets is higher than the silver class tickets: <b>True</b> or False</li>
                             <li>The average income from each seat is <b>$13.75</b></li>
                             <li>In case of a sold-out concert, the total income is <b>$1760</b>, and it changes the profit by <b>$740.80</b>.</li>
                         </ol>
                   </div>
-              </header>
           </div>
+          </header>
 
       </div>
     );
@@ -116,6 +116,15 @@ function loadEvaluationMenu() {
         else {
             document.getElementById("goldClassIncome").innerHTML = "The income from the gold class tickets is higher than the silver class tickets: True or <b>False</b>";
         }
+        // get the total number of tickets booked
+        var total = 0;
+        for (var i = 0; i < letters.length; i++) {
+            total += _profit[letters[i]].length;
+        }
+
+        // get the average income from each seat booked
+
+        document.getElementById("tickets").innerHTML = "Total number of tickets available: <b>" + (120 - total) + "</b>";
         document.getElementById("mainMenu").style.display = "none";
         document.getElementById("evaluation").style.display = "block";
         var back = document.createElement("button");
