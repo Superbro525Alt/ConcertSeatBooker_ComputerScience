@@ -33,7 +33,7 @@ const auth = getAuth(app);
 var CART = [];
 function App() {
   return (
-      <div id="app">
+      <div id="app" onLoad={onload}>
           <header className="App-header">
 
     <div className="App" id="mainMenu">
@@ -78,9 +78,68 @@ function App() {
                   </div>
           </div>
           </header>
+            <div id="notes" style={{overflow:"hidden"}}>
 
+            </div>
       </div>
+
     );
+}
+function onload() {
+    const AMOUNT_OF_IMAGES = 10;
+    let dist = window.innerWidth * 0.075;
+    let windowWidth = window.innerWidth - dist;
+    let windowHeight = window.innerHeight - dist;
+    // use the music note image from public/note.png and make them go back and forth on the screen
+    for (let i = 0; i < AMOUNT_OF_IMAGES; i++) {
+
+        let img = document.createElement("img");
+        img.src = process.env.PUBLIC_URL + "/note.png";
+        img.style.position = "absolute";
+        img.style.top = "0px";
+        img.style.left = "0px";
+        img.style.width = "50px";
+        img.style.height = "50px";
+        img.style.zIndex = "100";
+        img.style.display = "none";
+        document.getElementById("notes").appendChild(img);
+
+        let x = Math.random() * (windowWidth);
+        let y = Math.random() * (windowHeight);
+        let dx = (Math.random() - 0.5) * 10;
+        let dy = (Math.random() - 0.5) * 10;
+        let angle = 0;
+        let dangle = (Math.random() - 0.5) * 10;
+        let scale = 1;
+        let dscale = (Math.random() - 0.5) * 0.1;
+        let opacity = 0;
+        let dopacity = (Math.random() - 0.5) * 0.1;
+
+        setInterval(() => {
+            img.style.display = "block";
+            img.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg) scale(${scale})`;
+            img.style.opacity = opacity;
+            // check if it will not be off the screen
+            if (x + dx < 0 || x + dx > windowWidth) dx = -dx;
+            if (y + dy < 0 || y + dy > windowHeight) dy = -dy;
+            x += dx;
+            y += dy;
+            angle += dangle;
+            scale += dscale;
+            opacity += dopacity;
+            if (x < 0 || x > windowWidth) dx = -dx;
+            if (y < 0 || y > windowHeight) dy = -dy;
+            if (angle < -360 || angle > 360) dangle = -dangle;
+            if (scale < 0 || scale > 2) dscale = -dscale;
+            if (opacity < 0 || opacity > 1) dopacity = -dopacity;
+            if (angle < -360 || angle > 360) angle = 0;
+
+
+
+        }, 1000 / 60);
+
+
+    }
 }
 function keys(obj) {
     return Object.keys(obj);
