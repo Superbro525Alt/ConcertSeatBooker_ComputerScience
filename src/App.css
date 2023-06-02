@@ -2,6 +2,9 @@
   text-align: center;
   z-index: 101;
 }
+:root {
+  --size : 100px;
+}
 
 .App-logo {
   height: 40vmin;
@@ -73,3 +76,31 @@
 
 }
 
+body {
+  margin: 0;
+}
+
+.note, .noteHolder {
+  width: var(--size);
+  height: var(--size);
+}
+
+.x {
+  animation: x 13s linear infinite alternate;
+}
+
+.y {
+  animation: y 7s linear infinite alternate;
+}
+
+@keyframes x {
+  100% {
+    transform: translateX( calc(100vw - var(--size)) );
+  }
+}
+
+@keyframes y {
+  100% {
+    transform: translateY( calc(100vh - var(--size)) );
+  }
+}
