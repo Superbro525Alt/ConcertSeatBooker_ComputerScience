@@ -36,8 +36,8 @@ function App() {
       <div id="app" onLoad={onload}>
           <header className="App-header">
 
+              <div id="main">
     <div className="App" id="mainMenu">
-      <header className="App-header-auto">
           <img src={process.env.PUBLIC_URL + "/logo.png"} alt="logo" />
           <h2>
             Concert Seat Booking
@@ -52,7 +52,6 @@ function App() {
               <p></p>
           </div>
           <button className="book" style={{width: "200px"}} onClick={loadEvaluationMenu}>Evaluation</button>
-      </header>
     </div>
     <div id="bookingsMenu" className="App" style={{display:"none"}}>
               <div id="bookings" style={{display:"flex"}}>
@@ -77,6 +76,8 @@ function App() {
                         </ol>
                   </div>
           </div>
+              </div>
+
           </header>
             <div id="notes">
 
@@ -86,8 +87,27 @@ function App() {
     );
 }
 function onload() {
-    const AMOUNT_OF_IMAGES = 10;
-    // use the music note image from public/note.png and make them go back and forth on the screen
+    // scale the page to fit the screen
+    var scale = Math.min(
+        window.screen.width / document.body.scrollWidth,
+        window.screen.height / document.body.scrollHeight
+    );
+    console.log(window.screen.width, document.body.scrollWidth, window.screen.height, document.body.scrollHeight);
+
+    if (window.screen.width < 1920) {
+        document.getElementById("main").style.transform = "scale(" + scale + ")";
+        document.getElementById("main").style.transformOrigin = "center top";
+    }
+    // load the main menu
+
+    if (document.getElementById("bookingsMenu").style.display == "block") {
+        if (scale != 1) {
+            document.getElementById("bookings").style.display = "block";
+        }
+
+    }
+
+
 
 }
 function keys(obj) {
@@ -96,6 +116,7 @@ function keys(obj) {
 const sortObject = obj => Object.keys(obj).sort().reduce((res, key) => (res[key] = obj[key], res), {});
 
 function loadEvaluationMenu() {
+    onload();
     onValue(ref(database, 'bookedSeats/'), (snapshot) => {
         var seats = snapshot.val();
         if (seats == null || seats == undefined) {
@@ -150,6 +171,7 @@ function loadEvaluationMenu() {
     });
 }
 function loadExpensesMenu() {
+    onload();
     var title = document.createElement("h1");
     title.innerHTML = "Login";
     title.style.marginBottom = "10px";
@@ -226,6 +248,7 @@ function loadExpensesMenu() {
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
+
                 onValue(ref(database, 'Expenses/'), (snapshot) => {
                     var products = snapshot.val();
 
@@ -702,7 +725,7 @@ function loadExpensesMenu() {
                         back.className = "book";
                         document.getElementById("expenses").appendChild(back);
 
-
+                        onload();
 
                     });
 
@@ -772,8 +795,10 @@ function SeatIDToPrice(ID) {
 }
 
 function loadBookingMenu() {
+
     document.getElementById("bookingsMenu").style.display = "block";
     document.getElementById("mainMenu").style.display = "none";
+    onload();
     var stage = document.createElement("div");
     stage.style.width = "660px";
     stage.style.height = "75px";
@@ -874,6 +899,8 @@ function loadBookingMenu() {
     back.onclick = function() {window.location.reload()};
     document.getElementById("booking-info").appendChild(back);
 
+    onload();
+
 
 
 }
@@ -882,12 +909,16 @@ function _viewCart() {
     var cartHolder = document.createElement("div");
     cartHolder.style.position = "absolute";
     cartHolder.style.zIndex = "9";
-    cartHolder.style.width = "1140px";
-    cartHolder.style.height = "600px";
+    cartHolder.style.width = "55%";
+    cartHolder.style.height = "80%";
     cartHolder.style.border = "3px solid black";
-    cartHolder.style.paddingTop = "20px";
+    cartHolder.style.paddingTop = "5%";
     cartHolder.style.backgroundColor = "#282c34";
     cartHolder.style.overflow = "auto";
+
+    // center the cart
+    cartHolder.style.top = "5%";
+    cartHolder.style.left = "25%";
     document.getElementById("bookings").appendChild(cartHolder);
 
     var cartHeading = document.createElement("h1");
@@ -993,6 +1024,7 @@ function _checkout(cart) {
 
             });
         }
+        onload();
     });
 }
 function bookSeat(seatID) {
@@ -1011,11 +1043,16 @@ function bookSeat(seatID) {
     var confirmAddToCart = document.createElement("div");
     confirmAddToCart.style.position = "absolute";
     confirmAddToCart.style.zIndex = "9";
-    confirmAddToCart.style.width = "1140px";
-    confirmAddToCart.style.height = "600px";
+    confirmAddToCart.style.width = "55%";
+    confirmAddToCart.style.height = "80%";
     confirmAddToCart.style.border = "3px solid black";
-    confirmAddToCart.style.paddingTop = "20px";
+    confirmAddToCart.style.paddingTop = "5%";
     confirmAddToCart.style.backgroundColor = "#282c34";
+    confirmAddToCart.style.overflow = "auto";
+
+    // center the cart
+    confirmAddToCart.style.top = "5%";
+    confirmAddToCart.style.left = "25%"
 
 
     var confirmAddToCartHeading = document.createElement("h1");
