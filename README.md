@@ -16,6 +16,7 @@
       2. [Set Requests](#Set-Requests)
 3. [Authentication](#Authentication)
    1. [Login](#Login)
+   2. [Admin Login](#Admin Login)
 5. [Charts](#Charts)
     1. [Modules](#Modules)
    2. [Code](#Code)
@@ -1001,6 +1002,10 @@ function login() {
 ```
 
 The above code logs in the user using built in firebase authentication using the email and password specified.
+
+## Admin Login
+Email: admin@admin.com
+Password: password1
 
 # Charts
 ## Modules
