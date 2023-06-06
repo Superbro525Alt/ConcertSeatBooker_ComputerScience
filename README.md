@@ -1008,6 +1008,7 @@ The above code logs in the user using built in firebase authentication using the
 
 ## Admin Login
 Email: admin@admin.com
+
 Password: password1
 
 # Charts
