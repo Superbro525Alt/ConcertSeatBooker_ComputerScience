@@ -15,7 +15,7 @@
       1. [Get Requests](#Get-Requests)
       2. [Set Requests](#Set-Requests)
 3. [Authentication](#Authentication)
-   4. [Login Code](#Login)
+   1. [Login](#Login)
 5. [Charts](#Charts)
     1. [Modules](#Modules)
    2. [Code](#Code)
