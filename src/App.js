@@ -112,7 +112,7 @@ function keys(obj) {
 }
 const sortObject = obj => Object.keys(obj).sort().reduce((res, key) => (res[key] = obj[key], res), {});
 
-function loadEvaluationMenu() {
+function loadEvaluationMenu()   {
     onload();
     onValue(ref(database, 'bookedSeats/'), (snapshot) => {
         var seats = snapshot.val();
@@ -150,7 +150,7 @@ function loadEvaluationMenu() {
 
         // get the average income from each seat booked
 
-        document.getElementById("tickets").innerHTML = "Total number of tickets available: <b>" + (120 - total) + "</b>";
+        document.getElementById("tickets").innerHTML = "Total number of tickets available: <b>" + (128 - total) + "</b>";
         document.getElementById("mainMenu").style.display = "none";
         document.getElementById("evaluation").style.display = "block";
         var back = document.createElement("button");
