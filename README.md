@@ -2,6 +2,7 @@
 1. [Overview of Approach](#Overview-of-Approach)
 2. [Development Environment](#Development-Environment)
 3. [Hosting](#Hosting)
+4. [Firebase](#Firebase)
 3. [Documentation](#Documentation)
     1. [Code](#Code)
         1. [Main Menu](#Main-Menu)
@@ -29,6 +30,32 @@ I developed this program in Pycharm Professional react-js environment. I used th
 
 # Hosting
 I hosted the website on firebase. I used firebase because it is free and easy to use. I also used firebase because it is easy to integrate with react-js. Firebase provides free hosting with the domain name.web.app. I currently have it hosted at [concertseatbooker.web.app](https://concertseatbooker.web.app/).
+
+# Firebase
+I used firebase to integrate a realtime database with my react-js app. To use it all you have to do is insert the following code at the start of your javascript script if you have the node modules installed.
+
+```javascript
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getDatabase, ref, set, onValue } from "firebase/database";
+```
+If you don't have them installed you can install them by running this npm command if you have node.js installed
+
+```bash
+npm install firebase
+```
+
+If you don't want to install anything you can import it from the web using the following code
+
+```javascript
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-analytics.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
+```
+
+See [firebase.google.com](https://firebase.google.com/docs/web/setup) for more information.
+For application to this web app see [Database](#Database)
+For the docs see [firebase.google.com](https://firebase.google.com/docs/reference/js)
 
 # Documentation
 ## Code
