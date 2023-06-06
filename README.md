@@ -14,6 +14,8 @@
    2. [Database Functions](#Database-Functions)
       1. [Get Requests](#Get-Requests)
       2. [Set Requests](#Set-Requests)
+3. [Authentication](#Authentication)
+   4. [Login Code](#Login)
 5. [Charts](#Charts)
     1. [Modules](#Modules)
    2. [Code](#Code)
@@ -32,12 +34,14 @@ I developed this program in Pycharm Professional react-js environment. I used th
 I hosted the website on firebase. I used firebase because it is free and easy to use. I also used firebase because it is easy to integrate with react-js. Firebase provides free hosting with the domain name.web.app. I currently have it hosted at [concertseatbooker.web.app](https://concertseatbooker.web.app/).
 
 # Firebase
-I used firebase to integrate a realtime database with my react-js app. To use it all you have to do is insert the following code at the start of your javascript script if you have the node modules installed.
+I used firebase to integrate a realtime database with my react-js app. To use it all you have to do is insert the following code at the start of your javascript script if you have the node modules installed. I also used it to intergrate authentication into the admin page.
 
 ```javascript
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set, onValue } from "firebase/database";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+
 ```
 If you don't have them installed you can install them by running this npm command if you have node.js installed
 
@@ -51,11 +55,14 @@ If you don't want to install anything you can import it from the web using the f
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-analytics.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 ```
 
-See [firebase.google.com](https://firebase.google.com/docs/web/setup) for more information.
-For application to this web app see [Database](#Database)
-For the docs see [firebase.google.com](https://firebase.google.com/docs/reference/js)
+See [firebase.google.com](https://firebase.google.com/docs/web/setup) for more setup information.
+
+For application to this web app see [Database](#Database) and [Authentication](#Authentication) documentation.
+
+For the JavaScript docs see [firebase.google.com/docs](https://firebase.google.com/docs/reference/js).
 
 # Documentation
 ## Code
@@ -971,6 +978,29 @@ onValue(ref(database, 'path/to/location/in/database'), (snapshot) => {});
 ```javascript
 set(ref(database, 'path/to/location/in/database'), objectToSetTo);
 ```
+
+# Authentication
+## Login
+```javascript
+function login() {
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+        // Signed in 
+        var user = userCredential.user;
+        document.getElementById("login").style.display = "none";
+        document.getElementById("mainMenu").style.display = "block";
+        // ...
+    })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert("Error: " + errorMessage);
+        });
+}
+```
+
+The above code logs in the user using built in firebase authentication using the email and password specified.
 
 # Charts
 ## Modules
