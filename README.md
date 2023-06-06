@@ -16,7 +16,7 @@
       2. [Set Requests](#Set-Requests)
 3. [Authentication](#Authentication)
    1. [Login](#Login)
-   2. [Admin Login](#Admin Login)
+   2. [Admin Login](#admin-login)
 5. [Charts](#Charts)
     1. [Modules](#Modules)
    2. [Code](#Code)
