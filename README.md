@@ -1,6 +1,7 @@
 # Contents
 1. [Overview of Approach](#Overview-of-Approach)
 2. [Development Environment](#Development-Environment)
+3. [Hosting](#Hosting)
 3. [Documentation](#Documentation)
     1. [Code](#Code)
         1. [Main Menu](#Main-Menu)
@@ -25,6 +26,9 @@ I used JavaScript integrated with google firebase to make the program. The progr
 
 # Development Environment
 I developed this program in Pycharm Professional react-js environment. I used the react-js environment because i have previously developed in vanilla javascript and would like to try something new. 
+
+# Hosting
+I hosted the website on firebase. I used firebase because it is free and easy to use. I also used firebase because it is easy to integrate with react-js. Firebase provides free hosting with the domain name.web.app. I currently have it hosted at [concertseatbooker.web.app](https://concertseatbooker.web.app/).
 
 # Documentation
 ## Code
