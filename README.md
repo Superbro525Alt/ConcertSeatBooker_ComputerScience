@@ -134,6 +134,17 @@ In the context of Anychart.js i imported it like this because the module name is
 import * as anychart from 'anychart';
 ```
 
+To install a module for react-js use the following command
+```bash
+npm install module
+```
+This only works if you are using the node package manager (npm). To install it simply install Node.js from [Nodejs.org](https://nodejs.org/en/).
+
+In the case of anychart I used the following command
+```bash
+npm install anychart
+```
+
 ## Usage of each Module
 ### Generic
 You use a modules functions by using the following syntax
