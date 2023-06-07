@@ -118,7 +118,6 @@ For the JavaScript docs see [Firebase.google.com/docs](https://Firebase.google.c
 - [Anychart-react](https://www.npmjs.com/package/anychart-react)
 - [React](https://www.npmjs.com/package/react)
 - [XLSX/SheetJS](https://www.npmjs.com/package/xlsx)
-- [TableExport](https://www.npmjs.com/package/tableexport)
 
 To import a module use the following code
 ```javascript
@@ -135,6 +134,69 @@ In the context of Anychart.js i imported it like this because the module name is
 import * as anychart from 'anychart';
 ```
 
+## Usage of each Module
+### Generic
+You use a modules functions by using the following syntax
+```javascript
+module.function();
+```
+
+For example to use the console.log() function you would use the following code
+```javascript
+console.log("Hello World");
+```
+
+You use this syntax because the module's name is "console" and the function's name is "log".
+### Anychart.js
+
+Anychart.js is a charting library. It is used to create charts. It is used in this project to create a pie chart. It is used to display the profit/loss of the concert. It is used in the Expenses page.
+
+To create a pie chart you use the following code:
+
+```javascript
+var chart = anychart.pie();
+```
+
+#### Anychart-react
+
+This module is a wrapping module for using anychart in react-js.
+I do not call this module explicitly in my code as it is used in the backend of react and anychart when I use anychart in the script.
+
+### React
+
+React is the backend of the app. It is used to render the elements on the screen. I have not needed to use this module in my code as it came in the initial project template. To render the elements you use the following code:
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals(console.log);
+```
+
+### XLSX/SheetJS
+
+This module is used to read and write to excel files. It is used in the Expenses page to export a copy of the expenses and revenue to a spreadsheet that can be opened in exel.
+I use the module to export the data to an excel file with the following code:
+
+```javascript
+var workbook = XLSX.utils.book_new();
+var ws = XLSX.utils.aoa_to_sheet(arr);
+XLSX.utils.book_append_sheet(workbook, ws, "Results");
+XLSX.writeFile(workbook, 'out.xlsx', {type: 'file'});
+```
 
 # Documentation
 ## Code
