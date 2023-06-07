@@ -30,6 +30,26 @@ I used JavaScript integrated with google firebase to make the program. The progr
 
 # Development Environment
 I developed this program in Pycharm Professional react-js environment. I used the react-js environment because i have previously developed in vanilla javascript and would like to try something new. 
+React is a JavaScript library created by Facebook. It is a User Interface (UI) library. It is used as a tool for building UI components.
+
+For a quick start guide you can see [What is React (w3schools.com)](https://www.w3schools.com/whatis/whatis_react.asp).
+
+As part of me learning this new framework for web apps I have noted down some pros and cons of using React.
+
+Pros:
+- React is easy to learn the basics of
+- React is fast
+- React makes it easy to create interactive UIs
+- React uses virtual DOM which is a JavaScript object. This will improve apps performance since it is faster.
+- React can be used on the client and server side
+- React can be used to create mobile applications (React Native)
+
+Cons:
+- React is complex and has a high learning curve
+- React is slow for large applications
+- React does not support IE8 and lower
+- React is a view layer only, so you still need to integrate it with other technologies to get a complete tooling set for development
+- React's library is very large
 
 # Hosting
 I hosted the website on firebase. I used firebase because it is free and easy to use. I also used firebase because it is easy to integrate with react-js. Firebase provides free hosting with the domain name.web.app. I currently have it hosted at [concertseatbooker.web.app](https://concertseatbooker.web.app/).
@@ -60,6 +80,34 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 ```
 
 See [firebase.google.com](https://firebase.google.com/docs/web/setup) for more setup information.
+
+
+To use firebase you need to create a config. This is found in the project settings in the firebase console. You can then copy and paste the config into your script. You can then initialise the app using the following code
+
+```javascript
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBpxOivm7svonRsCsT7rebL6x0TpvaMeqk",
+  authDomain: "concertseatbooker.firebaseapp.com",
+  databaseURL: "https://concertseatbooker-default-rtdb.firebaseio.com",
+  projectId: "concertseatbooker",
+  storageBucket: "concertseatbooker.appspot.com",
+  messagingSenderId: "889062282272",
+  appId: "1:889062282272:web:22b83594bff816ad099845",
+  measurementId: "G-VS08KBCG4M"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const database = getDatabase(app);
+const auth = getAuth(app);
+```
+
+The configuration used is the config for my firebase project. You can use your own config by creating a firebase project and copying the config from the project settings.
+The app variable is used to initialise each component of the final application. The database variable is used to access the realtime database. The auth variable is used to access the authentication service.
+Analytics is used to track the usage of the app. I did not use this in my app because it is not required.
+
 
 For application to this web app see [Database](#Database) and [Authentication](#Authentication) documentation.
 
