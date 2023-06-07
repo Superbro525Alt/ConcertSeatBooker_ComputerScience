@@ -26,7 +26,7 @@
 
    
 # Overview of Approach
-I used JavaScript integrated with google firebase to make the program. The program allows you to view the booking menu and an admin menu to see the profit and loss projections. In the booking menu the user can view the rows of seats and select which ones they would like to book. When the user has selected the seats, they want they can view their cart and a popup will appear in the middle of the screen. This will show each seat and the price of it and a button to confirm the booking. If the user presses the checkout button the seats booked will be added to an external database hosted at firebase so they cannot be booked again. There will also be a back button on the view cart menu to close the popup and book more seats. On the main menu there is another option for Perth Modern School Admins to view the total profit and loss projections and to add, remove or change expenses for the night. The script generates two pie charts, one for the expenses to provide a visual aid to see the expenses. The other pie chart will display the profits per row to show how much profit each class of seats are making the school. The evaluation button on the main screen will show the evaluation as specified in the task sheet. The majority of the questions are conditional, depending on the current state of the database. The program will query the database (this may take a bit of time) and show the results. 
+I used JavaScript integrated with google Firebase to make the program. The program allows you to view the booking menu and an admin menu to see the profit and loss projections. In the booking menu the user can view the rows of seats and select which ones they would like to book. When the user has selected the seats, they want they can view their cart and a popup will appear in the middle of the screen. This will show each seat and the price of it and a button to confirm the booking. If the user presses the checkout button the seats booked will be added to an external database hosted at Firebase so they cannot be booked again. There will also be a back button on the view cart menu to close the popup and book more seats. On the main menu there is another option for Perth Modern School Admins to view the total profit and loss projections and to add, remove or change expenses for the night. The script generates two pie charts, one for the expenses to provide a visual aid to see the expenses. The other pie chart will display the profits per row to show how much profit each class of seats are making the school. The evaluation button on the main screen will show the evaluation as specified in the task sheet. The majority of the questions are conditional, depending on the current state of the database. The program will query the database (this may take a bit of time) and show the results. 
 
 # Development Environment
 I developed this program in Pycharm Professional react-js environment. I used the react-js environment because i have previously developed in vanilla javascript and would like to try something new. 
@@ -52,10 +52,10 @@ Cons:
 - React's library is very large
 
 # Hosting
-I hosted the website on firebase. I used firebase because it is free and easy to use. I also used firebase because it is easy to integrate with react-js. Firebase provides free hosting with the domain name.web.app. I currently have it hosted at [concertseatbooker.web.app](https://concertseatbooker.web.app/).
+I hosted the website on Firebase. I used Firebase because it is free and easy to use. I also used Firebase because it is easy to integrate with react-js. Firebase provides free hosting with the domain name.web.app. I currently have it hosted at [concertseatbooker.web.app](https://concertseatbooker.web.app/).
 
 # Firebase
-I used firebase to integrate a realtime database with my react-js app. To use it all you have to do is insert the following code at the start of your javascript script if you have the node modules installed. I also used it to intergrate authentication into the admin page.
+I used Firebase to integrate a realtime database with my react-js app. To use it all you have to do is insert the following code at the start of your javascript script if you have the node modules installed. I also used it to intergrate authentication into the admin page.
 
 ```javascript
 import { initializeApp } from "firebase/app";
@@ -67,7 +67,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 If you don't have them installed you can install them by running this npm command if you have node.js installed
 
 ```bash
-npm install firebase
+npm install Firebase
 ```
 
 If you don't want to install anything you can import it from the web using the following code
@@ -75,21 +75,21 @@ If you don't want to install anything you can import it from the web using the f
 ```javascript
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-analytics.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.0.2/Firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/Firebasejs/9.0.2/Firebase-auth.js";
 ```
 
-See [firebase.google.com](https://firebase.google.com/docs/web/setup) for more setup information.
+See [Firebase.google.com](https://Firebase.google.com/docs/web/setup) for more setup information.
 
 
-To use firebase you need to create a config. This is found in the project settings in the firebase console. You can then copy and paste the config into your script. You can then initialise the app using the following code
+To use Firebase you need to create a config. This is found in the project settings in the Firebase console. You can then copy and paste the config into your script. You can then initialise the app using the following code
 
 ```javascript
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBpxOivm7svonRsCsT7rebL6x0TpvaMeqk",
-  authDomain: "concertseatbooker.firebaseapp.com",
-  databaseURL: "https://concertseatbooker-default-rtdb.firebaseio.com",
+  authDomain: "concertseatbooker.Firebaseapp.com",
+  databaseURL: "https://concertseatbooker-default-rtdb.Firebaseio.com",
   projectId: "concertseatbooker",
   storageBucket: "concertseatbooker.appspot.com",
   messagingSenderId: "889062282272",
@@ -104,14 +104,14 @@ const database = getDatabase(app);
 const auth = getAuth(app);
 ```
 
-The configuration used is the config for my firebase project. You can use your own config by creating a firebase project and copying the config from the project settings.
+The configuration used is the config for my Firebase project. You can use your own config by creating a Firebase project and copying the config from the project settings.
 The app variable is used to initialise each component of the final application. The database variable is used to access the realtime database. The auth variable is used to access the authentication service.
 Analytics is used to track the usage of the app. I did not use this in my app because it is not required.
 
 
 For application to this web app see [Database](#Database) and [Authentication](#Authentication) documentation.
 
-For the JavaScript docs see [firebase.google.com/docs](https://firebase.google.com/docs/reference/js).
+For the JavaScript docs see [Firebase.google.com/docs](https://Firebase.google.com/docs/reference/js).
 
 # Documentation
 ## Code
@@ -335,7 +335,7 @@ function loadExpensesMenu() {
     loginButton.style.marginRight = "10px";
     loginButton.style.marginBottom = "10px";
     loginButton.onclick = function () {
-        // do firebase auth
+        // do Firebase auth
         var username = usernameLogin.value;
         var password = passwordLogin.value;
         // sign in and alert the user if there is an error
@@ -1052,7 +1052,7 @@ function login() {
 }
 ```
 
-The above code logs in the user using built in firebase authentication using the email and password specified.
+The above code logs in the user using built in Firebase authentication using the email and password specified.
 
 ## Admin Login
 Email: admin@admin.com
@@ -1064,6 +1064,26 @@ Password: password1
 - [Anychart.js](https://www.npmjs.com/package/anychart)
 - [Anychart-react](https://www.npmjs.com/package/anychart-react)
 - [React](https://www.npmjs.com/package/react)
+- [XLSX/SheetJS](https://www.npmjs.com/package/xlsx)
+- [TableExport](https://www.npmjs.com/package/tableexport)
+
+To import a module use the following code
+```javascript
+import moduleName as usagesyntax from 'module';
+```
+
+To import everything from a module use the following code
+```javascript
+import * as usagesyntax from 'module';
+```
+
+In the context of Anychart.js i imported it like this because the module name is anychart and I wanted to import everything from it.
+```javascript
+import * as anychart from 'anychart';
+```
+
+## Usage of each Module
+
 ## Code
 ### Expenses Chart
 ```javascript
