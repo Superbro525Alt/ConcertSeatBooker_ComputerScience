@@ -67,7 +67,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 If you don't have them installed you can install them by running this npm command if you have node.js installed
 
 ```bash
-npm install Firebase
+npm install firebase
 ```
 
 If you don't want to install anything you can import it from the web using the following code
