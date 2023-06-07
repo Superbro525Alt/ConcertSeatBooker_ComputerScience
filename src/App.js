@@ -93,15 +93,16 @@ function onload() {
         window.screen.height / document.body.scrollHeight
     );
     console.log(window.screen.width, document.body.scrollWidth, window.screen.height, document.body.scrollHeight);
+    // get the width of the window without the scroll bar
 
-    if (window.screen.width < 1920) {
+    if (window.screen.width < (1000)) {
         document.getElementById("main").style.transform = "scale(" + scale + ")";
         document.getElementById("main").style.transformOrigin = "center top";
     }
     // load the main menu
 
     if (document.getElementById("bookingsMenu").style.display == "block") {
-        if (scale != 1) {
+        if (scale < 1) {
             document.getElementById("bookings").style.display = "block";
         }
 
