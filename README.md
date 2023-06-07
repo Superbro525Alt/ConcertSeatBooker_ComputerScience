@@ -3,6 +3,7 @@
 2. [Development Environment](#Development-Environment)
 3. [Hosting](#Hosting)
 4. [Firebase](#Firebase)
+5. [Modules](#modules)
 3. [Documentation](#Documentation)
     1. [Code](#Code)
         1. [Main Menu](#Main-Menu)
@@ -18,8 +19,7 @@
    1. [Login](#Login)
    2. [Admin Login](#admin-login)
 5. [Charts](#Charts)
-    1. [Modules](#Modules)
-   2. [Code](#Code)
+   1. [Code](#Code)
       1. [Expenses Chart](#Expenses-Chart)
       2. [Profit Chart](#Bookings-Chart)
 3. [Dynamic Formatting](#Dynamic-Formatting)
@@ -112,6 +112,29 @@ Analytics is used to track the usage of the app. I did not use this in my app be
 For application to this web app see [Database](#Database) and [Authentication](#Authentication) documentation.
 
 For the JavaScript docs see [Firebase.google.com/docs](https://Firebase.google.com/docs/reference/js).
+
+# Modules
+- [Anychart.js](https://www.npmjs.com/package/anychart)
+- [Anychart-react](https://www.npmjs.com/package/anychart-react)
+- [React](https://www.npmjs.com/package/react)
+- [XLSX/SheetJS](https://www.npmjs.com/package/xlsx)
+- [TableExport](https://www.npmjs.com/package/tableexport)
+
+To import a module use the following code
+```javascript
+import moduleName as usagesyntax from 'module';
+```
+
+To import everything from a module use the following code
+```javascript
+import * as usagesyntax from 'module';
+```
+
+In the context of Anychart.js i imported it like this because the module name is anychart and I wanted to import everything from it.
+```javascript
+import * as anychart from 'anychart';
+```
+
 
 # Documentation
 ## Code
@@ -1060,30 +1083,6 @@ Email: admin@admin.com
 Password: password1
 
 # Charts
-## Modules
-- [Anychart.js](https://www.npmjs.com/package/anychart)
-- [Anychart-react](https://www.npmjs.com/package/anychart-react)
-- [React](https://www.npmjs.com/package/react)
-- [XLSX/SheetJS](https://www.npmjs.com/package/xlsx)
-- [TableExport](https://www.npmjs.com/package/tableexport)
-
-To import a module use the following code
-```javascript
-import moduleName as usagesyntax from 'module';
-```
-
-To import everything from a module use the following code
-```javascript
-import * as usagesyntax from 'module';
-```
-
-In the context of Anychart.js i imported it like this because the module name is anychart and I wanted to import everything from it.
-```javascript
-import * as anychart from 'anychart';
-```
-
-## Usage of each Module
-
 ## Code
 ### Expenses Chart
 ```javascript
