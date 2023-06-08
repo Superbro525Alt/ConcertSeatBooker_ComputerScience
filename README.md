@@ -98,7 +98,7 @@ To use Firebase you need to create a config. This is found in the project settin
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBpxOivm7svonRsCsT7rebL6x0TpvaMeqk",
-  authDomain: "concertseatbooker.Firebaseapp.com",
+  authDomain: "concertseatbooker.firebaseapp.com",
   databaseURL: "https://concertseatbooker-default-rtdb.Firebaseio.com",
   projectId: "concertseatbooker",
   storageBucket: "concertseatbooker.appspot.com",
