@@ -4,7 +4,8 @@
 3. [Hosting](#Hosting)
 4. [Firebase](#Firebase)
 5. [Directory Structure](#directories--files)
-   1. [package.json, package-lock.json](#packagejson-package-lockjson)
+   1. [package.json](#packagejson)
+   2. [package-lock.json](#package-lockjson)
    2. [public](#public)
    3. [src](#src)
 5. [Modules](#modules)
@@ -124,10 +125,73 @@ For application to this web app see [Database](#Database) and [Authentication](#
 For the JavaScript docs see [Firebase.google.com/docs](https://Firebase.google.com/docs/reference/js).
 
 # Directories / Files
-## package.json, package-lock.json
+## package.json
+This file is used to store the dependencies for the app. It also stores the scripts for the app. The scripts are used to run the app. The scripts are run using the npm command. The scripts are as follows:
 
-This file is used to store the dependencies of the app. This file is created when you run the npm install command. This file is used to store the version of the dependencies. This file is also used to store the scripts that can be run using the npm run command. This file is also used to store the name and version of the app.
+```bash
+npm start
+```
+This script is used to run the app in development mode. It will open the app in the browser at [localhost:3000](http://localhost:3000/). The page will reload if you make edits. You will also see any lint errors in the console.
 
+```bash
+npm test
+```
+This script is used to launch the test runner in the interactive watch mode. See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+```bash
+npm run build
+```
+This script is used to build the app for production to the build folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. Your app is ready to be deployed!
+
+```bash
+npm run eject
+```
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+## package-lock.json
+This file is used to store the dependencies for the app. It is automatically generated when dependencies are installed. It is used to lock the dependencies to a specific version. This is so that the app will not break if a dependency is updated.
+
+## firebase.json
+This file is used to store the configuration for Firebase hosting. It is used to store the public folder and the rewrites for the app. The rewrites are used to redirect the user to the index.html file when they enter a url that does not exist. This is so that the app will not break if the user enters a url that does not exist.
+
+This is my current firebase.json file:
+
+```json
+{
+  "hosting": {
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
+```
+
+## .gitignore
+This file is used to store the files that are ignored by git when commiting and pushing to the github repository.
+
+## README.md
+This file is used to store the documentation for the app. It is written in markdown. It is displayed on the github repository.
+
+## .firebaserc
+This file is used to store the configuration for Firebase hosting. It is used to store the project id for the Firebase project.
+This is the current file:
+
+```json
+{
+  "projects": {
+    "default": "concertseatbooker"
+  }
+}
+```
 ## ./public
 This folder is for storing assets required in the HTML document for example images. This folder is acsessed in a HTML file by the use of "%PUBLIC_URL%" in the path. In a javascript file it is acsessed by this function:
 
