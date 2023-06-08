@@ -126,7 +126,7 @@ Analytics is used to track the usage of the app. I did not use this in my app be
 
 For application to this web app see [Database](#Database) and [Authentication](#Authentication) documentation.
 
-For the JavaScript docs see [Firebase.google.com/docs](https://Firebase.google.com/docs/reference/js).
+For the JavaScript docs see [firebase.google.com/docs](https://firebase.google.com/docs/reference/js).
 
 # Directories / Files
 ## package.json
