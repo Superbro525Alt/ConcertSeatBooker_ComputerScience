@@ -3,6 +3,10 @@
 2. [Development Environment](#Development-Environment)
 3. [Hosting](#Hosting)
 4. [Firebase](#Firebase)
+5. [Directory Structure](#directories--files)
+   1. [package.json, package-lock.json](#packagejson-package-lockjson)
+   2. [public](#public)
+   3. [src](#src)
 5. [Modules](#modules)
    1. [Usage of Modules](#Usage-of-Modules)
    2. [Generic](#Generic)
@@ -118,6 +122,26 @@ Analytics is used to track the usage of the app. I did not use this in my app be
 For application to this web app see [Database](#Database) and [Authentication](#Authentication) documentation.
 
 For the JavaScript docs see [Firebase.google.com/docs](https://Firebase.google.com/docs/reference/js).
+
+# Directories / Files
+## package.json, package-lock.json
+
+This file is used to store the dependencies of the app. This file is created when you run the npm install command. This file is used to store the version of the dependencies. This file is also used to store the scripts that can be run using the npm run command. This file is also used to store the name and version of the app.
+
+## ./public
+This folder is for storing assets required in the HTML document for example images. This folder is acsessed in a HTML file by the use of "%PUBLIC_URL%" in the path. In a javascript file it is acsessed by this function:
+
+```javascript
+process.env.PUBLIC_URL
+```
+
+This folder also has the favicon (the icon that appears in the web browser), the robots.txt file (this is used by search engines to determine if they can index the site) and the manifest.json file (this is used to tell the browser how to display the app on a mobile device).
+
+## ./src
+This folder is for storing the source code for the app. This folder contains the index.js file which is the entry point for the app. This folder also contains the App.js file which is the main component of the app. This folder also contains the index.css file which is the main css file for the app. This folder also contains the serviceWorker.js file which is used to cache the app for offline use.
+
+## ./node_modules
+This folder is for storing the node modules. This folder is created when you run the npm install command.
 
 # Modules
 - [Anychart.js](https://www.npmjs.com/package/anychart)
