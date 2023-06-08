@@ -99,7 +99,7 @@ To use Firebase you need to create a config. This is found in the project settin
 const firebaseConfig = {
   apiKey: "AIzaSyBpxOivm7svonRsCsT7rebL6x0TpvaMeqk",
   authDomain: "concertseatbooker.firebaseapp.com",
-  databaseURL: "https://concertseatbooker-default-rtdb.Firebaseio.com",
+  databaseURL: "https://concertseatbooker-default-rtdb.firebaseio.com",
   projectId: "concertseatbooker",
   storageBucket: "concertseatbooker.appspot.com",
   messagingSenderId: "889062282272",
