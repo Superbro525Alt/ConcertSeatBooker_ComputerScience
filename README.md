@@ -4,6 +4,12 @@
 3. [Hosting](#Hosting)
 4. [Firebase](#Firebase)
 5. [Modules](#modules)
+   1. [Usage of Modules](#Usage-of-Modules)
+   2. [Generic](#Generic)
+   3. [Anychart.js](#anychartjs)
+      1. [Anychart-react](#anychart-react)
+   4. [React](#React)
+   5. [XLSX/SheetJS](#xlsxsheetjs)
 3. [Documentation](#Documentation)
     1. [Code](#Code)
         1. [Main Menu](#Main-Menu)
@@ -145,7 +151,7 @@ In the case of anychart I used the following command
 npm install anychart
 ```
 
-## Usage of each Module
+## Usage of Modules
 ### Generic
 You use a modules functions by using the following syntax
 ```javascript
