@@ -154,6 +154,11 @@ To import a module use the following code
 import moduleName as usagesyntax from 'module';
 ```
 
+To import multiple things from a module use the following code
+```javascript
+import { thing1, thing2 } as usagesyntax from 'module';
+```
+
 To import everything from a module use the following code
 ```javascript
 import * as usagesyntax from 'module';
