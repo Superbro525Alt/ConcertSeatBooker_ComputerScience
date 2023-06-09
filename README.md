@@ -182,6 +182,34 @@ This is my current firebase.json file:
 ## .gitignore
 This file is used to store the files that are ignored by git when commiting and pushing to the github repository.
 
+This is the current state of the file:
+
+```bash
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+```
+
 ## README.md
 This file is used to store the documentation for the app. It is written in markdown. It is displayed on the github repository.
 
